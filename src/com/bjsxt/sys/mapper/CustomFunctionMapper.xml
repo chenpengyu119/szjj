@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bjsxt.sys.mapper.CustomFunctionMapper">
+    <select id="selectByChoicePage" resultType="CustomFunction">
+        select * from custom_function
+        <where>
+            <if test="choice!=null and choice!=''">
+                <bind name="choice" value="'%'+choice+'%'"></bind>
+                and title like #{choice}
+            </if>
+        </where>
+        limit #{pageStart},#{pageSize}
+    </select>
+
+    <select id="selectCountByChoice" resultType="_long">
+        select count(*) from custom_function
+        <where>
+            <if test="choice!=null and choice!=''">
+                <bind name="choice" value="'%'+choice+'%'"></bind>
+                and title like #{choice}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insert">
+        insert into custom_function values(default,#{title},#{url},#{photo},#{remark})
+    </insert>
+</mapper>

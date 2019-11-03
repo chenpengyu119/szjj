@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bjsxt.sys.mapper.MenuMapper">
+    <select id="selctByPidUid" resultType="menu">
+        select * from menu where pid =#{param1} and id in (select mid from role_menu where rid in (select rid from role_user where uid = #{param2}));
+    </select>
+    
+    <select id="selectByRid" resultType="long">
+        select id from menu where id in (select mid from role_menu where rid = #{param1})
+    </select>
+
+    <select id="selectByPid" resultType="menu">
+        select * from menu where pid = #{param1}
+    </select>
+
+</mapper>

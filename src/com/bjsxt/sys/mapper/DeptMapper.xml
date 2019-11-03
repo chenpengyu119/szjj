@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bjsxt.sys.mapper.DeptMapper">
+    <select id="selectByPage" resultType="dept">
+       select * from dept limit #{param1},#{param2}
+    </select>
+
+    <select id="selectCount" resultType="_long">
+        select count(*) from dept
+    </select>
+
+    <insert id="insert" parameterType="dept">
+        insert into dept values(#{id},#{name},#{shortName},#{remark})
+    </insert>
+
+    <select id="selectByNameId" resultType="dept">
+        <bind name="choice" value="'%'+choice+'%'"></bind>
+        select * from dept where id like #{choice}  or name like  #{choice} limit #{pageStart},#{pageSize}
+    </select>
+
+    <select id="selectCountByChoice" resultType="_long">
+        <bind name="choice" value="'%'+choice+'%'"></bind>
+         select count(*) from dept where id like #{choice}  or name like  #{choice}
+    </select>
+
+    <delete id="deleteByIds">
+        delete from dept where id in
+        <foreach collection="array" close=")" open="(" separator="," item="id">
+            #{id}
+        </foreach>
+    </delete>
+
+    <update id="updateById" parameterType="dept">
+        update dept set name=#{name},shortName=#{shortName},remark=#{remark} where id=#{id}
+    </update>
+</mapper>
